@@ -51,9 +51,12 @@ body { padding-top: 0 !important; }
 #language-switcher button { border: 0; background: transparent; color: #94A3B8; cursor: pointer; padding: 8px 12px; font: 600 12px/1.2 Arial, sans-serif; letter-spacing: .06em; }
 #language-switcher button.active { background: #00E5FF; color: #0B132B; }
 #language-root { min-height: 100vh; }
+.nav-toggle { position: fixed !important; left: 14rem; top: 2.5rem; z-index: 1001; background: #0B132B; border: 1px solid #3A506B; padding: .5rem; color: #00E5FF; cursor: pointer; transition: left .3s ease; }
+.nav-toggle.is-collapsed { left: .75rem; }
 @media (max-width: 768px) {
   #language-switcher { top: 12px; right: 12px; }
   #language-root { padding-top: 48px; }
+  .nav-toggle { left: 14rem; }
 }
 </style>
 </head>
@@ -69,17 +72,17 @@ body { padding-top: 0 !important; }
             <p class="text-xs cyan-text uppercase tracking-widest">Engineering Manager</p>
         </div>
         <ul class="space-y-6 text-sm">
-            <li><a href="#summary" class="nav-link block transition">專業摘要</a></li>
-            <li><a href="#experience" class="nav-link block transition">專業經歷</a></li>
-            <li><a href="#projects" class="nav-link block transition">專案成果</a></li>
-            <li><a href="#expertise" class="nav-link block transition">核心技術</a></li>
-            <li><a href="#education" class="nav-link block transition">學經歷與研究</a></li>
-            <li><a href="#contact" class="nav-link block transition">聯絡資訊</a></li>
+            <li><a href="#summary" class="nav-link block transition">01 專業摘要</a></li>
+            <li><a href="#experience" class="nav-link block transition">02 專業經歷</a></li>
+            <li><a href="#projects" class="nav-link block transition">03 專案成果</a></li>
+            <li><a href="#expertise" class="nav-link block transition">04 核心技術</a></li>
+            <li><a href="#education" class="nav-link block transition">05 學經歷與研究</a></li>
+            <li><a href="#contact" class="nav-link block transition">06 聯絡資訊</a></li>
         </ul>
-        <button onclick="toggleNav()" class="absolute -right-10 top-10 bg-[#0B132B] border border-tech p-2 text-cyan-400">
+    </nav>
+<button class="nav-toggle" type="button" class="absolute -right-10 top-10 bg-[#0B132B] border border-tech p-2 text-cyan-400">
             <i class="fas fa-bars"></i>
         </button>
-    </nav>
 
     <main class="flex-1 ml-64 p-8 lg:p-16 max-w-5xl mx-auto" id="main-content">
         <header class="flex flex-col md:flex-row gap-12 mb-20 items-center md:items-start">
@@ -250,17 +253,17 @@ body { padding-top: 0 !important; }
             <p class="text-xs cyan-text uppercase tracking-widest">Engineering Manager</p>
         </div>
         <ul class="space-y-6 text-sm">
-            <li><a href="#summary" class="nav-link block transition">Summary</a></li>
-            <li><a href="#experience" class="nav-link block transition">Experience</a></li>
-            <li><a href="#projects" class="nav-link block transition">Projects</a></li>
-            <li><a href="#expertise" class="nav-link block transition">Expertise</a></li>
-            <li><a href="#education" class="nav-link block transition">Education</a></li>
-            <li><a href="#contact" class="nav-link block transition">Contact</a></li>
+            <li><a href="#summary" class="nav-link block transition">01 Summary</a></li>
+            <li><a href="#experience" class="nav-link block transition">02 Experience</a></li>
+            <li><a href="#projects" class="nav-link block transition">03 Projects</a></li>
+            <li><a href="#expertise" class="nav-link block transition">04 Expertise</a></li>
+            <li><a href="#education" class="nav-link block transition">05 Education</a></li>
+            <li><a href="#contact" class="nav-link block transition">06 Contact</a></li>
         </ul>
-        <button onclick="toggleNav()" class="absolute -right-10 top-10 bg-[#0B132B] border border-tech p-2 text-cyan-400">
+    </nav>
+<button class="nav-toggle" type="button" class="absolute -right-10 top-10 bg-[#0B132B] border border-tech p-2 text-cyan-400">
             <i class="fas fa-bars"></i>
         </button>
-    </nav>
 
     <main class="flex-1 ml-64 p-8 lg:p-16 max-w-5xl mx-auto" id="main-content">
         <header class="flex flex-col md:flex-row gap-12 mb-20 items-center md:items-start">
@@ -434,10 +437,11 @@ body { padding-top: 0 !important; }
     const nav = document.getElementById('nav-menu');
     const main = document.getElementById('main-content');
     if (!nav || !main) return;
-    const toggle = nav.querySelector('button[onclick="toggleNav()"]');
+    const toggle = root.querySelector('.nav-toggle');
     if (toggle) toggle.onclick = function() {
-      nav.classList.toggle('collapsed-nav');
-      main.style.marginLeft = nav.classList.contains('collapsed-nav') ? '0' : '16rem';
+      const collapsed = nav.classList.toggle('collapsed-nav');
+      main.style.marginLeft = collapsed ? '0' : '16rem';
+      toggle.classList.toggle('is-collapsed', collapsed);
     };
     const navLinks = nav.querySelectorAll('.nav-link');
     const sections = root.querySelectorAll('section, footer');
